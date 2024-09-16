@@ -111,7 +111,7 @@ public class BookTypeBusiness {
             statement.setInt(1, id);
             statement.executeUpdate();
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             ConnectionDB.closeConnection(connection);
@@ -128,12 +128,12 @@ public class BookTypeBusiness {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                CountResult countResult = new CountResult(resultSet.getString("TypeName"),resultSet.getInt("total"));
+                CountResult countResult = new CountResult(resultSet.getString("TypeName"), resultSet.getInt("total"));
                 countResults.add(countResult);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ConnectionDB.closeConnection(connection);
         }
         return countResults;
