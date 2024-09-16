@@ -2,6 +2,7 @@ package ra.presentation;
 
 import ra.business.BookBusiness;
 import ra.business.BookTypeBusiness;
+import ra.business.CountResult;
 import ra.entity.Book;
 import ra.entity.BookType;
 
@@ -59,6 +60,7 @@ public class BookManagement {
                     BookManagement.deleteBookType(scanner);
                     break;
                 case 5:
+                    BookManagement.countBookType();
                     break;
                 case 6:
                     flag = false;
@@ -137,6 +139,13 @@ public class BookManagement {
             }
         } else {
             System.out.println("Không tìm thấy loại sách");
+        }
+    }
+
+    public static void countBookType() {
+        List<CountResult> countResults = BookTypeBusiness.countBookType();
+        for (CountResult countResult : countResults) {
+            countResult.print();
         }
     }
 

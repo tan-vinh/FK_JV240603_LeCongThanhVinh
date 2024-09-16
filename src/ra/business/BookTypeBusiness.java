@@ -118,4 +118,24 @@ public class BookTypeBusiness {
         }
         return false;
     }
+
+    public static List<CountResult> countBookType() {
+        Connection connection = null;
+        List<CountResult> countResults = new ArrayList<>();
+        try {
+            connection = ConnectionDB.openConnection();
+            String sql = "select bt.TypeName, count(b.TypeId) as total from booktype bt left join book b on bt.TypeId=b.TypeId group by bt.TypeName order by bt.TypeId desc";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                CountResult countResult = new CountResult(resultSet.getString("TypeName"),resultSet.getInt("total"));
+                countResults.add(countResult);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return countResults;
+    }
 }
