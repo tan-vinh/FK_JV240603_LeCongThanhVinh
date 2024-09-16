@@ -180,6 +180,7 @@ public class BookManagement {
                 case 5:
                     break;
                 case 6:
+                    BookManagement.searchBook(scanner);
                     break;
                 case 7:
                     break;
@@ -290,6 +291,15 @@ public class BookManagement {
             }
         } else {
             System.out.println("Không tìm thấy loại sách");
+        }
+    }
+
+    public static void searchBook(Scanner scanner) {
+        System.out.println("Tên sách muốn tìm kiếm");
+        String bookName = scanner.nextLine();
+        List<Book> books = BookBusiness.searchBookByName(bookName);
+        for (Book book : books) {
+            book.displayData();
         }
     }
 }

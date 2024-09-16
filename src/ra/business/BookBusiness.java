@@ -135,11 +135,42 @@ public class BookBusiness {
             statement.setInt(1, id);
             statement.executeUpdate();
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             ConnectionDB.closeConnection(connection);
         }
         return false;
+    }
+
+    public static List<Book> searchBookByName(String bookName) {
+        List<Book> books = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = ConnectionDB.openConnection();
+            String sql = "select * from book where name like ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, "%" + bookName + "%");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Book book = new Book();
+                book.setBookId(resultSet.getInt("BookId"));
+                book.setBookName(resultSet.getString("BookName"));
+                book.setTitle(resultSet.getString("Title"));
+                book.setAuthor(resultSet.getString("Author"));
+                book.setTotalPages(resultSet.getInt("TotalPages"));
+                book.setContent(resultSet.getString("Content"));
+                book.setPublisher(resultSet.getString("Publisher"));
+                book.setPrice(resultSet.getFloat("Price"));
+                book.setTypeId(resultSet.getInt("TypeId"));
+                book.setDeleted(resultSet.getBoolean("IsDeleted"));
+                books.add(book);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return books;
     }
 }
